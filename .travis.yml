@@ -1,0 +1,26 @@
+sudo: required
+services:
+ - docker
+
+before_install:
+ - docker build -t ivanovadev/multi -f ./client/Dockerfile.dev ./client
+
+script:
+ - docker run ivanovadev/multi npm run test -- --coverage
+
+after_success:
+ - docker build -t ivanovadev/multi-client ./client
+ - docker build -t ivanovadev/multi-nginx ./nginx
+ - docker build -t ivanovadev/multi-server ./server
+ - docker build -t ivanovadev/multi-worker ./worker
+
+ - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --pasword-stdin
+ 
+ - docker push ivanovadev/multi-client
+ - docker push ivanovadev/multi-nginx
+ - docker push ivanovadev/multi-server
+ - docker push ivanovadev/multi-worker
+
+ #da ladno
+
+
