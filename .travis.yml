@@ -7,7 +7,7 @@ before_install:
  - docker build -t ivanovadev/multi -f ./client/Dockerfile.dev ./client
 
 script:
- - docker run -e CI=true stephengrider/react-test npm test
+ - docker run -e CI=true ivanovadev/multi npm test
  #- docker run ivanovadev/multi npm run test -- --coverage
   
 
